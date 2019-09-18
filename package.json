@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "electron": "^1.7.5",
-    "foreman": "^2.0.0",
+    "foreman": "^3.0.1",
     "redux-devtools": "^3.4.1"
   }
 }
