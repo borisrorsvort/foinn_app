@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 
 import { abcReformatter } from "../helpers/abcHelper";
 // eslint-disable-next-line import/no-webpack-loader-syntax

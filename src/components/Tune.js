@@ -9,7 +9,7 @@ import {
   IconButton,
   Toolbar
 } from "@material-ui/core";
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import CloseIcon from "@material-ui/icons/Close";
 import { withRouter } from "react-router-dom";
 import SheetMusic from "./SheetMusic";
@@ -18,6 +18,7 @@ import { connect } from "react-redux";
 import { fetchTune } from "../actions/tuneBook";
 import he from "he";
 import store from "../store";
+import history from "../history";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -28,11 +29,11 @@ const styles = theme => ({
     marginTop: 100
   },
   settings: theme.mixins.gutters({
-    paddingTop: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit
+    paddingTop: theme.spacing(),
+    paddingBottom: theme.spacing()
   }),
   title: {
-    marginLeft: theme.spacing.unit * 2,
+    marginLeft: theme.spacing(2),
     flex: 1
   }
 });
@@ -52,7 +53,7 @@ class Tune extends Component {
   render() {
     if (this.props.isFetching) {
       return (
-        <Grid container spacing={24}>
+        <Grid container>
           <Grid item xs={12} md={8}>
             <CircularProgress />
           </Grid>
@@ -60,18 +61,17 @@ class Tune extends Component {
       );
     }
 
-    if (
-      this.props.currentTune === undefined ||
-      this.props.currentTune.name === undefined
-    ) {
-      return null;
-    }
+    const tuneLoaded =
+      this.props.currentTune !== undefined &&
+      this.props.currentTune.name !== undefined;
+
+    const handleClose = () => history.push(this.props.referrer);
 
     return (
       <Dialog
         fullScreen
         open={!!this.props.tuneId}
-        onClose={() => {}}
+        onClose={handleClose}
         TransitionComponent={Transition}
       >
         <AppBar className={this.props.classes.appBar}>
@@ -79,7 +79,7 @@ class Tune extends Component {
             <IconButton
               edge="start"
               color="secondary"
-              onClick={() => {}}
+              onClick={handleClose}
               aria-label="close"
             >
               <CloseIcon />
@@ -89,42 +89,39 @@ class Tune extends Component {
               className={this.props.classes.title}
               color="secondary"
             >
-              {he.decode(this.props.currentTune.name)}
+              {tuneLoaded && he.decode(this.props.currentTune.name)}
             </Typography>
           </Toolbar>
         </AppBar>
-        <Grid
-          container
-          spacing={24}
-          justify="center"
-          className={this.props.classes.root}
-        >
-          <Grid item xs={12} md={6}>
-            {this.props.currentTune.settings.map(setting => {
-              return (
-                <div>
-                  <Typography variant="h5" gutterBottom>
-                    Setting #{setting.id} ({setting.key})
-                  </Typography>
-                  <Typography variant="body2">
-                    by {setting.member.name} on {setting.date} —{" "}
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href={`${TUNE_URL}${this.props.currentTune.id}#setting${setting.id}`}
-                    >
-                      View on The Session.org
-                    </a>
-                  </Typography>
-                  <SheetMusic
-                    tune={setting}
-                    type={this.props.currentTune.type}
-                  />
-                </div>
-              );
-            })}
+        {tuneLoaded && (
+          <Grid container justify="center" className={this.props.classes.root}>
+            <Grid item xs={12} md={6}>
+              {this.props.currentTune.settings.map(setting => {
+                return (
+                  <div>
+                    <Typography variant="h5" gutterBottom>
+                      Setting #{setting.id} ({setting.key})
+                    </Typography>
+                    <Typography variant="body2">
+                      by {setting.member.name} on {setting.date} —{" "}
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={`${TUNE_URL}${this.props.currentTune.id}#setting${setting.id}`}
+                      >
+                        View on The Session.org
+                      </a>
+                    </Typography>
+                    <SheetMusic
+                      tune={setting}
+                      type={this.props.currentTune.type}
+                    />
+                  </div>
+                );
+              })}
+            </Grid>
           </Grid>
-        </Grid>
+        )}
       </Dialog>
     );
   }

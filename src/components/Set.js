@@ -25,7 +25,7 @@ import store from "../store";
 
 const styles = theme => ({
   card: {
-    margin: `${theme.spacing.unit * 10}px 0`
+    margin: `${theme.spacing(10)}px 0`
   },
   title: {
     marginBottom: 16,
@@ -38,7 +38,7 @@ const styles = theme => ({
   },
   mainTitle: {
     textAlign: "center",
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
     fontWeight: 100,
     opacity: 0.7,
     [theme.breakpoints.down("sm")]: {

@@ -6,9 +6,10 @@ function Tunebook(props) {
   const {
     match: { url }
   } = props;
+
   return (
     <Route path={`${url}/:tuneId`}>
-      <Tune />
+      <Tune referrer={url} />
     </Route>
   );
 }

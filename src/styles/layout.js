@@ -51,13 +51,13 @@ export const layoutStyles = theme => ({
     transform: "translateY(-2px)"
   },
   greetings: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(),
     opacity: 0.5,
     display: "inline-block"
   },
   content: {
     width: "100%",
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing(3),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen

@@ -18,7 +18,7 @@ const styles = theme => ({
   },
   button: {
     color: "white",
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing(2)
   },
   home: {
     background: theme.palette.primary[500]
@@ -47,7 +47,6 @@ function Home(props) {
     <BodyClassName className={classes.home}>
       <Grid
         container
-        spacing={24}
         alignItems="center"
         justify="center"
         direction="row"

@@ -1,5 +1,5 @@
 import "./index.css";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Router, Route } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 import App from "./App";
@@ -11,6 +11,7 @@ import green from "@material-ui/core/colors/green";
 import red from "@material-ui/core/colors/red";
 import registerServiceWorker from "./registerServiceWorker";
 import store from "./store";
+import history from "./history";
 
 const white = {
   50: "#fff",
@@ -50,7 +51,7 @@ const theme = createMuiTheme({
 const app = (
   <MuiThemeProvider theme={theme}>
     <Provider store={store}>
-      <Router>
+      <Router history={history}>
         <div>
           <Route exact path="/">
             <Home />
