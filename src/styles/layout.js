@@ -67,8 +67,7 @@ export const layoutStyles = theme => ({
   },
   [theme.breakpoints.up("md")]: {
     content: {
-      marginTop: 64,
-      marginLeft: SIDEBAR_WIDTH
+      marginTop: 64
     },
     drawerPaper: {
       height: "calc(100vh - 64px)",

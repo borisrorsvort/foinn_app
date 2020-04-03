@@ -4,7 +4,6 @@ import { Button, Hidden } from "@material-ui/core";
 import Help from "@material-ui/icons/Help";
 import React, { Component } from "react";
 import AppBar from "@material-ui/core/AppBar";
-import DrawerResponsive from "./components/DrawerResponsive";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import NavDropDown from "./components/NavDropDown";
@@ -37,28 +36,20 @@ class App extends Component {
       <div className={classes.root}>
         <AppBar className={classes.appBar}>
           <Toolbar>
-            <Hidden mdUp>
-              <IconButton
-                color="secondary"
-                aria-label="open drawer"
-                onClick={this.handleDrawerToggle}
-                className={classes.navIconHide}
-              >
-                <MenuIcon />
-              </IconButton>
-            </Hidden>
+            <IconButton
+              color="secondary"
+              aria-label="open drawer"
+              onClick={this.handleDrawerToggle}
+              className={classes.navIconHide}
+            >
+              <MenuIcon />
+            </IconButton>
             <div className={classes.flex}>
               <Hidden smDown>
                 <img src={smallLogoUrl} alt="Foinn" className={classes.logo} />
               </Hidden>
               <NavDropDown />
             </div>
-
-            <Hidden smDown>
-              <span className={classes.greetings}>
-                Hi! {this.props.currentUser.name}
-              </span>
-            </Hidden>
             <Button onClick={() => this.props.logout()} color="secondary">
               Change user
             </Button>
@@ -75,7 +66,6 @@ class App extends Component {
         <div className={classes.content}>
           {folder === "tunes" ? <Tunebook /> : <Sets />}
         </div>
-        <DrawerResponsive showDrawer={this.props.showDrawer} folder={folder} />
       </div>
     );
   }

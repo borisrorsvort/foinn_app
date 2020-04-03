@@ -33,10 +33,11 @@ const white = {
 
 const theme = createMuiTheme({
   palette: {
-    primary: green,
-    secondary: {
-      ...white
+    primary: {
+      main: "#357a38",
+      ...green
     },
+    secondary: white,
     error: red
   },
   typography: {
