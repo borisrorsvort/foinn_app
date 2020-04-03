@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^3.0.2",
+    "@material-ui/core": "^4.9.8",
     "@material-ui/icons": "^3.0.1",
     "abcjs": "https://github.com/paulrosen/abcjs.git",
     "autosuggest-highlight": "^3.1.1",

@@ -2,10 +2,15 @@ import {
   CircularProgress,
   Grid,
   Typography,
-  withStyles
+  withStyles,
+  Dialog,
+  Slide,
+  AppBar,
+  IconButton,
+  Toolbar
 } from "@material-ui/core";
-import React, { Component } from "react";
-
+import React, { Component, Fragment } from "react";
+import CloseIcon from "@material-ui/icons/Close";
 import { withRouter } from "react-router-dom";
 import SheetMusic from "./SheetMusic";
 import { TUNE_URL } from "../constants/actionTypes";
@@ -14,22 +19,21 @@ import { fetchTune } from "../actions/tuneBook";
 import he from "he";
 import store from "../store";
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 const styles = theme => ({
-  card: {
-    margin: `${theme.spacing.unit * 10}px 0`
+  root: {
+    marginTop: 100
   },
   settings: theme.mixins.gutters({
     paddingTop: theme.spacing.unit,
     paddingBottom: theme.spacing.unit
   }),
-  flex: {
-    flex: 1
-  },
   title: {
-    textAlign: "center",
-    marginTop: theme.spacing.unit * 2,
-    fontWeight: 100,
-    opacity: 0.7
+    marginLeft: theme.spacing.unit * 2,
+    flex: 1
   }
 });
 
@@ -64,37 +68,64 @@ class Tune extends Component {
     }
 
     return (
-      <div>
-        <Grid container spacing={24}>
-          <Grid item xs={12} md={8}>
-            <Typography className={this.props.classes.title} variant="h1">
+      <Dialog
+        fullScreen
+        open={!!this.props.tuneId}
+        onClose={() => {}}
+        TransitionComponent={Transition}
+      >
+        <AppBar className={this.props.classes.appBar}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="secondary"
+              onClick={() => {}}
+              aria-label="close"
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography
+              variant="h6"
+              className={this.props.classes.title}
+              color="secondary"
+            >
               {he.decode(this.props.currentTune.name)}
             </Typography>
+          </Toolbar>
+        </AppBar>
+        <Grid
+          container
+          spacing={24}
+          justify="center"
+          className={this.props.classes.root}
+        >
+          <Grid item xs={12} md={6}>
+            {this.props.currentTune.settings.map(setting => {
+              return (
+                <div>
+                  <Typography variant="h5" gutterBottom>
+                    Setting #{setting.id} ({setting.key})
+                  </Typography>
+                  <Typography variant="body2">
+                    by {setting.member.name} on {setting.date} —{" "}
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`${TUNE_URL}${this.props.currentTune.id}#setting${setting.id}`}
+                    >
+                      View on The Session.org
+                    </a>
+                  </Typography>
+                  <SheetMusic
+                    tune={setting}
+                    type={this.props.currentTune.type}
+                  />
+                </div>
+              );
+            })}
           </Grid>
         </Grid>
-        {this.props.currentTune.settings.map(setting => {
-          return (
-            <Grid container spacing={24} key={setting.id}>
-              <Grid item xs={12} md={12}>
-                <Typography variant="h4" gutterBottom>
-                  Setting #{setting.id} ({setting.key})
-                </Typography>
-                <Typography variant="body1">
-                  by {setting.member.name} on {setting.date} —{" "}
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={`${TUNE_URL}${this.props.currentTune.id}#setting${setting.id}`}
-                  >
-                    View on The Session.org
-                  </a>
-                </Typography>
-                <SheetMusic tune={setting} type={this.props.currentTune.type} />
-              </Grid>
-            </Grid>
-          );
-        })}
-      </div>
+      </Dialog>
     );
   }
 }

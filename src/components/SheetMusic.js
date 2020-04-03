@@ -1,23 +1,18 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 import { abcReformatter } from "../helpers/abcHelper";
 // eslint-disable-next-line import/no-webpack-loader-syntax
 //import abcjs from "exports-loader?ABCJS!script-loader!../../node_modules/abcjs/bin/abcjs_basic_latest-min.js";
 import abcjs from "abcjs";
-// import abcjsMidi from "abcjs/midi";
+import abcjsMidi from "abcjs/midi";
 import he from "he";
 import reactDimensions from "react-dimensions";
 import { withStyles } from "@material-ui/core";
 
 const styles = theme => ({
   root: {
-    margin: "20px auto",
-    borderBottom: "1px solid #ccc",
-    "&:last-child": {
-      border: "none",
-      marginBottom: 0,
-      paddingBottom: 0
-    }
+    marginBottom: 100,
+    marginTop: 50
   }
 });
 
@@ -26,7 +21,8 @@ class SheetMusic extends Component {
     const engraverParams = {
       paddingright: 0,
       paddingleft: 0,
-      responsive: "resize"
+      responsive: "resize",
+      add_classes: true
     };
     const parserParams = {};
     const renderParams = {};
@@ -39,23 +35,23 @@ class SheetMusic extends Component {
     );
   }
 
-  // renderMidi() {
-  //   abcjsMidi.renderMidi(
-  //     this.midi,
-  //     abcReformatter(this.props.tune, this.props.type, this.title()),
-  //     {},
-  //     {
-  //       inlineControls: {
-  //         selectionToggle: false,
-  //         loopToggle: false,
-  //         standard: true,
-  //         tempo: false,
-  //         startPlaying: false
-  //       }
-  //     },
-  //     {}
-  //   );
-  // }
+  renderMidi() {
+    abcjsMidi.renderMidi(
+      this.midi,
+      abcReformatter(this.props.tune, this.props.type, this.title()),
+      {},
+      {
+        inlineControls: {
+          selectionToggle: false,
+          loopToggle: false,
+          standard: true,
+          tempo: false,
+          startPlaying: false
+        }
+      },
+      {}
+    );
+  }
 
   title() {
     return this.props.tune.name
@@ -69,20 +65,20 @@ class SheetMusic extends Component {
     const newWidth = nextProps.containerWidth;
     if (this.props.containerWidth !== newWidth) {
       this.renderAbc(this.props.containerWidth);
-      // this.renderMidi(this.props.containerWidth);
+      this.renderMidi(this.props.containerWidth);
     }
   }
 
   componentDidMount() {
     this.renderAbc(this.props.containerWidth);
-    // this.renderMidi(this.props.containerWidth);
+    this.renderMidi(this.props.containerWidth);
   }
 
-  // <div ref={el => (this.midi = el)} />
   render() {
     return (
       <div className={this.props.classes.root}>
         <div ref={el => (this.el = el)} />
+        <div ref={el => (this.midi = el)} />
       </div>
     );
   }
