@@ -12,16 +12,11 @@ import { withStyles } from "@material-ui/core";
 const styles = theme => ({
   root: {
     margin: "20px auto",
-
-    maxWidth: "640px",
     borderBottom: "1px solid #ccc",
     "&:last-child": {
       border: "none",
       marginBottom: 0,
       paddingBottom: 0
-    },
-    [theme.breakpoints.up("md")]: {
-      padding: "20px"
     }
   }
 });
@@ -74,7 +69,7 @@ class SheetMusic extends Component {
     const newWidth = nextProps.containerWidth;
     if (this.props.containerWidth !== newWidth) {
       this.renderAbc(this.props.containerWidth);
-      this.renderMidi(this.props.containerWidth);
+      // this.renderMidi(this.props.containerWidth);
     }
   }
 

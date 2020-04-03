@@ -1,11 +1,6 @@
 import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
   CircularProgress,
   Grid,
-  Hidden,
   Typography,
   withStyles
 } from "@material-ui/core";
@@ -51,8 +46,6 @@ class Tune extends Component {
   }
 
   render() {
-    const { classes } = this.props;
-
     if (this.props.isFetching) {
       return (
         <Grid container spacing={24}>
@@ -82,32 +75,22 @@ class Tune extends Component {
         {this.props.currentTune.settings.map(setting => {
           return (
             <Grid container spacing={24} key={setting.id}>
-              <Grid item xs={12} md={8}>
+              <Grid item xs={12} md={12}>
+                <Typography variant="h4" gutterBottom>
+                  Setting #{setting.id} ({setting.key})
+                </Typography>
+                <Typography variant="body1">
+                  by {setting.member.name} on {setting.date} —{" "}
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={`${TUNE_URL}${this.props.currentTune.id}#setting${setting.id}`}
+                  >
+                    View on The Session.org
+                  </a>
+                </Typography>
                 <SheetMusic tune={setting} type={this.props.currentTune.type} />
               </Grid>
-              <Hidden smDown>
-                <Grid item md={4}>
-                  <Card className={classes.card} key={setting.id}>
-                    <CardContent>
-                      <Typography variant="subtitle1" gutterBottom>
-                        Setting #{setting.id} ({setting.key})
-                      </Typography>
-                      <Typography variant="caption">
-                        by {setting.member.name} on {setting.date}
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                      <Button
-                        component={"a"}
-                        target="_blank"
-                        href={`${TUNE_URL}${this.props.currentTune.id}#setting${setting.id}`}
-                      >
-                        View on The Session.org
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              </Hidden>
             </Grid>
           );
         })}

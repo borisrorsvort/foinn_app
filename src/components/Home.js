@@ -79,7 +79,7 @@ function Home(props) {
                 to={`/tunebook/${currentUser.id}/tunes`}
                 className={classes.button}
                 component={Link}
-                variant="raised"
+                variant="contained"
                 color="primary"
               >
                 Open tunebook
