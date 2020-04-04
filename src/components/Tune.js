@@ -43,7 +43,7 @@ class Tune extends Component {
     store.dispatch(fetchTune(this.props.tuneId));
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(nextProps) {
     const newTuneId = nextProps.tuneId;
     if (this.props.tuneId !== newTuneId) {
       store.dispatch(fetchTune(newTuneId));

@@ -20,7 +20,6 @@ import { TUNE_URL } from "../constants/actionTypes";
 import { connect } from "react-redux";
 import { fetchSet } from "../actions/sets";
 import he from "he";
-import { safeObj } from "../helpers/objectHelper";
 import store from "../store";
 
 const styles = theme => ({
@@ -55,7 +54,7 @@ class Set extends Component {
     store.dispatch(fetchSet(this.props.userId, this.props.setId));
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(nextProps) {
     const newSetId = nextProps.setId;
     if (this.props.setId !== newSetId) {
       store.dispatch(fetchSet(this.props.userId, newSetId));
@@ -76,7 +75,7 @@ class Set extends Component {
       );
     }
 
-    if (!safeObj(this.props.currentSet).name) {
+    if ((!this.props.currentSet || {}).name) {
       return null;
     }
 
