@@ -4,7 +4,6 @@ import { fetchTuneBook } from "../actions/tuneBook";
 import { connect } from "react-redux";
 import Tune from "./Tune";
 import { withRouter } from "react-router-dom";
-import DrawerItems from "./DrawerItems";
 import store from "../store";
 import TuneList from "./TuneList";
 
@@ -19,7 +18,7 @@ function Tunebook(props) {
     if (!items.length) {
       store.dispatch(fetchTuneBook(userId));
     }
-  }, [userId]);
+  }, [userId, items.length]);
 
   return (
     <div>
