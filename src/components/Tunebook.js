@@ -16,7 +16,9 @@ function Tunebook(props) {
   } = props;
 
   useEffect(() => {
-    store.dispatch(fetchTuneBook(userId));
+    if (!items.length) {
+      store.dispatch(fetchTuneBook(userId));
+    }
   }, [userId]);
 
   return (
