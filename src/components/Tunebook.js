@@ -31,7 +31,6 @@ function Tunebook(props) {
 }
 const mapStateToProps = state => {
   return {
-    userId: state.session.currentUser.id,
     items: state.tunes.tunes
   };
 };
