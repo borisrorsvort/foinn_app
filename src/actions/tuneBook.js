@@ -1,5 +1,6 @@
 import * as types from "../constants/actionTypes";
-
+import range from "lodash/range";
+import flatMap from "lodash/flatMap";
 import axios from "axios";
 
 function requestTuneBook() {
@@ -8,12 +9,10 @@ function requestTuneBook() {
   };
 }
 
-function receiveTuneBook(tunes, meta, add = false) {
+function receiveTuneBook(tunes, meta) {
   return {
     type: types.RECEIVE_TUNEBOOK,
-    tunes: tunes,
-    meta: meta,
-    add: add
+    tunes
   };
 }
 
@@ -30,34 +29,36 @@ function receiveTune(tune) {
   };
 }
 
-export const fetchTuneBook = (
-  memberId,
-  nextPage = 1,
-  add = false
-) => dispatch => {
+export const fetchTuneBook = memberId => dispatch => {
   dispatch(requestTuneBook());
-  return axios
-    .get(
-      `${types.MEMBER_URL}${memberId}/tunebook?format=json&page=${nextPage}&perpage=50`
-    )
-    .then(function(response) {
-      const { page, pages, perpage, total, tunes } = response.data;
-      dispatch(
-        receiveTuneBook(
-          tunes,
-          {
-            page: page,
-            pages: pages,
-            perpage: perpage,
-            total: total
-          },
-          add
-        )
-      );
-    })
-    .catch(function(error) {
-      alert("something went wrong, try again late");
+  let responses = [];
+
+  function fetch(page, rsps) {
+    return new Promise(resolve => {
+      axios
+        .get(`${types.MEMBER_URL}${memberId}/tunebook`, {
+          params: { page: page, format: "json", perpage: 50 }
+        })
+        .then(response => {
+          rsps.push(response);
+          const {
+            data: { page, pages }
+          } = response;
+          if (!!page && page < pages) {
+            const allpages = range(2, pages + 1); // lodash range as example to simplify
+            axios.all(allpages.map(m => fetch(m, rsps))).then(() => resolve());
+          } else {
+            resolve();
+          }
+        });
     });
+  }
+
+  return fetch(1, responses).then(() => {
+    const tunes = flatMap(responses, response => response.data.tunes);
+
+    dispatch(receiveTuneBook(tunes, {}));
+  });
 };
 
 export const fetchTune = tuneId => dispatch => {

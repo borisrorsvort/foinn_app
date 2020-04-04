@@ -11,16 +11,17 @@ import TuneList from "./TuneList";
 function Tunebook(props) {
   const {
     match: { url },
-    items
+    items,
+    userId
   } = props;
 
   useEffect(() => {
-    store.dispatch(fetchTuneBook(props.userId));
-  }, [props.userId]);
+    store.dispatch(fetchTuneBook(userId));
+  }, [userId]);
 
   return (
     <div>
-      <TuneList items={props.items} />
+      <TuneList items={items} />
       <Route path={`${url}/:tuneId`}>
         <Tune referrer={url} />
       </Route>

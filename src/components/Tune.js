@@ -96,9 +96,9 @@ class Tune extends Component {
         {tuneLoaded && (
           <Grid container justify="center" className={this.props.classes.root}>
             <Grid item xs={12} md={6}>
-              {this.props.currentTune.settings.map(setting => {
+              {this.props.currentTune.settings.map((setting, i) => {
                 return (
-                  <div>
+                  <div key={`${setting.id}-${i}`}>
                     <Typography variant="h5" gutterBottom>
                       Setting #{setting.id} ({setting.key})
                     </Typography>

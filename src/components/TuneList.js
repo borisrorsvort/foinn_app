@@ -26,9 +26,8 @@ function TuneList(props) {
   return (
     <List className={classes.root}>
       {items.map((item, index) => (
-        <Fragment>
+        <Fragment key={`${index}-item.id`}>
           <ListItem
-            key={`${index}-item.id`}
             component={Link}
             button
             to={match.params.tuneId ? `${item.id}` : `${match.url}/${item.id}`}
