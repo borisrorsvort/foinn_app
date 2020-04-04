@@ -45,8 +45,7 @@ export const fetchTuneBook = memberId => dispatch => {
             data: { page, pages }
           } = response;
           if (!!page && page < pages) {
-            const allpages = range(2, pages + 1); // lodash range as example to simplify
-            axios.all(allpages.map(m => fetch(m, rsps))).then(() => resolve());
+            axios.all([fetch(page + 1, rsps)]).then(() => resolve());
           } else {
             resolve();
           }
@@ -56,7 +55,6 @@ export const fetchTuneBook = memberId => dispatch => {
 
   return fetch(1, responses).then(() => {
     const tunes = flatMap(responses, response => response.data.tunes);
-
     dispatch(receiveTuneBook(tunes, {}));
   });
 };
