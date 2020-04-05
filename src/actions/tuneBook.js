@@ -1,5 +1,6 @@
 import * as types from "../constants/actionTypes";
 import flatMap from "lodash/flatMap";
+import sortBy from "lodash/sortBy";
 import axios from "axios";
 import { updateCurrentUser } from "./session";
 
@@ -56,7 +57,10 @@ export const fetchTuneBook = memberId => dispatch => {
   }
 
   return fetch(1, responses).then(() => {
-    const tunes = flatMap(responses, response => response.data.tunes);
+    const tunes = sortBy(
+      flatMap(responses, response => response.data.tunes),
+      ["name"]
+    );
     dispatch(receiveTuneBook(tunes, {}));
   });
 };

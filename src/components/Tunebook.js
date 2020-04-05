@@ -4,7 +4,6 @@ import { fetchTuneBook } from "../actions/tuneBook";
 import { connect } from "react-redux";
 import Tune from "./Tune";
 import { withRouter } from "react-router-dom";
-import store from "../store";
 import TuneList from "./TuneList";
 import PageLoading from "./PageLoading";
 
@@ -14,14 +13,15 @@ function Tunebook(props) {
     items,
     userId,
     isFetching,
-    userChanged
+    userChanged,
+    fetchTuneBook
   } = props;
 
   useEffect(() => {
     if (userChanged || !items.length) {
-      store.dispatch(fetchTuneBook(userId));
+      fetchTuneBook(userId);
     }
-  }, [userId, items.length, userChanged]);
+  }, [userId, items.length, userChanged, fetchTuneBook]);
 
   return (
     <div>
@@ -39,4 +39,6 @@ const mapStateToProps = (state, props) => {
     userChanged: state.session.currentUser.id !== props.userId
   };
 };
-export default connect(mapStateToProps)(withRouter(Tunebook));
+export default connect(mapStateToProps, { fetchTuneBook })(
+  withRouter(Tunebook)
+);

@@ -1,12 +1,11 @@
 import "./App.css";
 
-import { Button, Hidden } from "@material-ui/core";
+import { Button, Hidden, Typography } from "@material-ui/core";
 import Help from "@material-ui/icons/Help";
 import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import NavDropDown from "./components/NavDropDown";
 import Sets from "./components/Sets";
 import Toolbar from "@material-ui/core/Toolbar";
 import Tunebook from "./components/Tunebook";
@@ -18,7 +17,7 @@ import store from "./store";
 import { toggleDrawer } from "./actions/ui";
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter, Link } from "react-router-dom";
-
+import NavDrawer from "./components/NavDrawer";
 function App(props) {
   const handleDrawerToggle = () => {
     store.dispatch(toggleDrawer());
@@ -26,6 +25,7 @@ function App(props) {
 
   const {
     classes,
+    showDrawer,
     match: {
       params: { folder, userId }
     }
@@ -47,7 +47,7 @@ function App(props) {
             <Hidden smDown>
               <img src={smallLogoUrl} alt="Foinn" className={classes.logo} />
             </Hidden>
-            <NavDropDown />
+            <Typography variant="h6"> — {folder}</Typography>
           </div>
           <Button component={Link} to={"/"} color="secondary">
             Change user
@@ -62,6 +62,7 @@ function App(props) {
           </IconButton>
         </Toolbar>
       </AppBar>
+      <NavDrawer onClose={handleDrawerToggle} open={showDrawer} />
       <div className={classes.content}>
         {folder === "tunes" ? (
           <Tunebook userId={userId} />
