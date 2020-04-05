@@ -6,12 +6,14 @@ import Tune from "./Tune";
 import { withRouter } from "react-router-dom";
 import store from "../store";
 import TuneList from "./TuneList";
+import PageLoading from "./PageLoading";
 
 function Tunebook(props) {
   const {
     match: { url },
     items,
     userId,
+    isFetching,
     userChanged
   } = props;
 
@@ -23,7 +25,7 @@ function Tunebook(props) {
 
   return (
     <div>
-      <TuneList items={items} />
+      {isFetching ? <PageLoading /> : <TuneList items={items} />}
       <Route path={`${url}/:tuneId`}>
         <Tune referrer={url} />
       </Route>
@@ -33,6 +35,7 @@ function Tunebook(props) {
 const mapStateToProps = (state, props) => {
   return {
     items: state.tunes.tunes,
+    isFetching: state.tunes.isFetching,
     userChanged: state.session.currentUser.id !== props.userId
   };
 };
