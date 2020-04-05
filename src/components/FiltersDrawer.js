@@ -3,11 +3,12 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { layoutStyles } from "../styles/layout";
+import { toggleFilters } from "../actions/ui";
 
 class FiltersDrawer extends Component {
-  handleDrawerToggle() {
-    // store.dispatch(toggleDrawer());
-  }
+  handleFiltersToggle = () => {
+    this.props.toggleFilters();
+  };
 
   render() {
     const { classes } = this.props;
@@ -21,27 +22,28 @@ class FiltersDrawer extends Component {
           <Drawer
             variant="temporary"
             anchor={"right"}
-            open={true}
+            open={this.props.open}
             classes={{
               paper: classes.drawerPaper
             }}
-            onClose={this.handleFilterDrawerToggle}
+            onClose={this.handleFiltersToggle}
             ModalProps={{
               keepMounted: true // Better open performance on mobile.
             }}
           >
-            {drawerContent}
+            Hello
           </Drawer>
         </Hidden>
         <Hidden smDown implementation="css">
           <Drawer
+            anchor="right"
             variant="persistent"
             open
             classes={{
               paper: classes.drawerPaper
             }}
           >
-            {drawerContent}
+            Hello
           </Drawer>
         </Hidden>
       </div>
@@ -49,8 +51,12 @@ class FiltersDrawer extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => ({});
+const mapStateToProps = state => ({
+  open: state.ui.showFilters
+});
 
 export default withRouter(
-  connect(mapStateToProps)(withStyles(layoutStyles)(FiltersDrawer))
+  connect(mapStateToProps, { toggleFilters })(
+    withStyles(layoutStyles)(FiltersDrawer)
+  )
 );

@@ -6,6 +6,7 @@ import Tune from "./Tune";
 import { withRouter } from "react-router-dom";
 import TuneList from "./TuneList";
 import PageLoading from "./PageLoading";
+import FiltersDrawer from "./FiltersDrawer";
 
 function Tunebook(props) {
   const {
@@ -26,6 +27,7 @@ function Tunebook(props) {
   return (
     <div>
       {isFetching ? <PageLoading /> : <TuneList items={items} />}
+      <FiltersDrawer />
       <Route path={`${url}/:tuneId?`}>
         <Tune referrer={url} />
       </Route>

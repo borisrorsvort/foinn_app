@@ -1,7 +1,7 @@
 import "./App.css";
 
-import { Button, Hidden, Typography } from "@material-ui/core";
-import Help from "@material-ui/icons/Help";
+import { Hidden, Typography } from "@material-ui/core";
+import Filters from "@material-ui/icons/Search";
 import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
@@ -13,14 +13,16 @@ import { connect } from "react-redux";
 import { layoutStyles } from "./styles/layout";
 import { logout } from "./actions/session";
 import smallLogoUrl from "./images/logo-small.svg";
-import store from "./store";
-import { toggleDrawer } from "./actions/ui";
+import { toggleDrawer, toggleFilters } from "./actions/ui";
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter, Link } from "react-router-dom";
 import NavDrawer from "./components/NavDrawer";
 function App(props) {
   const handleDrawerToggle = () => {
-    store.dispatch(toggleDrawer());
+    props.toggleDrawer();
+  };
+  const handleToggleFilters = () => {
+    props.toggleFilters();
   };
 
   const {
@@ -30,7 +32,6 @@ function App(props) {
       params: { folder, userId }
     }
   } = props;
-
   return (
     <div className={classes.root}>
       <AppBar className={classes.appBar}>
@@ -49,17 +50,16 @@ function App(props) {
             </Hidden>
             <Typography variant="h6"> — {folder}</Typography>
           </div>
-          <Button component={Link} to={"/"} color="inherit">
-            Change user
-          </Button>
-          <IconButton
-            size="small"
-            component="a"
-            color="inherit"
-            href="mailto:accounts+foinn@rorsvort.com"
-          >
-            <Help />
-          </IconButton>
+          <Hidden mdUp>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleToggleFilters}
+              className={classes.navIconHide}
+            >
+              <Filters />
+            </IconButton>
+          </Hidden>
         </Toolbar>
       </AppBar>
       <NavDrawer onClose={handleDrawerToggle} open={showDrawer} />
@@ -79,5 +79,7 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(
-  connect(mapStateToProps, { logout })(withStyles(layoutStyles)(App))
+  connect(mapStateToProps, { logout, toggleFilters, toggleDrawer })(
+    withStyles(layoutStyles)(App)
+  )
 );

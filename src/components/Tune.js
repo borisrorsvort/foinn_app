@@ -1,5 +1,4 @@
 import {
-  CircularProgress,
   Grid,
   Typography,
   withStyles,
@@ -10,7 +9,7 @@ import {
   Toolbar,
   Link
 } from "@material-ui/core";
-import React, { Component, useEffect } from "react";
+import React, { useEffect } from "react";
 import CloseIcon from "@material-ui/icons/Close";
 import { withRouter } from "react-router-dom";
 import SheetMusic from "./SheetMusic";

@@ -1,16 +1,23 @@
-import { TOGGLE_DRAWER } from "../constants/actionTypes";
+import { TOGGLE_DRAWER, TOGGLE_FILTERS } from "../constants/actionTypes";
 
 function ui(
   state = {
-    showDrawer: false
+    showDrawer: false,
+    showFilters: false
   },
   action
 ) {
   switch (action.type) {
     case TOGGLE_DRAWER:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         showDrawer: action.forceClose ? false : !state.showDrawer
-      });
+      };
+    case TOGGLE_FILTERS:
+      return {
+        ...state,
+        showFilters: action.forceClose ? false : !state.showFilters
+      };
     default:
       return state;
   }

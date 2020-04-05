@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import Help from "@material-ui/icons/Help";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -10,6 +11,7 @@ import LibraryMusic from "@material-ui/icons/LibraryMusic";
 import MusicNote from "@material-ui/icons/MusicNote";
 import { connect } from "react-redux";
 import history from "../../history";
+import { Divider } from "@material-ui/core";
 
 const useStyles = makeStyles({
   list: {
@@ -25,7 +27,7 @@ function NavDrawer(props) {
 
   const items = [
     {
-      label: `Home`,
+      label: `Change user`,
       to: `/`,
       icon: <Home />
     },
@@ -55,6 +57,18 @@ function NavDrawer(props) {
             <ListItemText primary={item.label} />
           </ListItem>
         ))}
+        <Divider />
+        <ListItem
+          button
+          key={"nav-help"}
+          href="mailto:accounts+foinn@rorsvort.com"
+          component="a"
+        >
+          <ListItemIcon>
+            <Help />
+          </ListItemIcon>
+          <ListItemText primary="Help" />
+        </ListItem>
       </List>
     </div>
   );
