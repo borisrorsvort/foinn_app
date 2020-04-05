@@ -25,7 +25,8 @@ function tunes(
       return {
         ...state,
         isFetching: false,
-        tunes: action.tunes
+        tunes: action.tunes,
+        meta: action.meta
       };
     case REQUEST_TUNE:
       return Object.assign({}, state, {

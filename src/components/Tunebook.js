@@ -26,7 +26,7 @@ function Tunebook(props) {
   return (
     <div>
       {isFetching ? <PageLoading /> : <TuneList items={items} />}
-      <Route path={`${url}/:tuneId`}>
+      <Route path={`${url}/:tuneId?`}>
         <Tune referrer={url} />
       </Route>
     </div>

@@ -13,7 +13,8 @@ function requestTuneBook() {
 function receiveTuneBook(tunes, meta) {
   return {
     type: types.RECEIVE_TUNEBOOK,
-    tunes
+    tunes,
+    meta
   };
 }
 
@@ -61,7 +62,7 @@ export const fetchTuneBook = memberId => dispatch => {
       flatMap(responses, response => response.data.tunes),
       ["name"]
     );
-    dispatch(receiveTuneBook(tunes, {}));
+    dispatch(receiveTuneBook(tunes, { total: tunes.length }));
   });
 };
 

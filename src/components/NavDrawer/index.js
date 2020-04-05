@@ -30,12 +30,12 @@ function NavDrawer(props) {
       icon: <Home />
     },
     {
-      label: `Sets (${props.setsCount})`,
+      label: `Sets ${!!props.setsCount ? "(" + props.setsCount + ")" : ""}`,
       to: `/tunebook/${props.currentUser.id}/sets`,
       icon: <LibraryMusic />
     },
     {
-      label: `Tunes (${props.tunesCount})`,
+      label: `Tunes ${!!props.tunesCount ? "(" + props.tunesCount + ")" : ""}`,
       to: `/tunebook/${props.currentUser.id}/tunes`,
       icon: <MusicNote />
     }
@@ -67,8 +67,8 @@ function NavDrawer(props) {
 }
 
 const mapStateToProps = state => ({
-  tunesCount: state.tunes.meta && state.tunes.meta.total,
-  setsCount: state.sets.meta && state.sets.meta.total,
+  tunesCount: state.tunes.meta?.total,
+  setsCount: state.sets.meta?.total,
   currentUser: state.session.currentUser
 });
 
