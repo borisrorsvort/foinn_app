@@ -6,6 +6,7 @@ import Autosuggest from "react-autosuggest";
 import match from "autosuggest-highlight/match";
 import parse from "autosuggest-highlight/parse";
 import store from "../store";
+import history from "../history";
 
 const styles = theme => ({
   suggestionsContainer: {
@@ -85,6 +86,7 @@ function renderSuggestionsContainer(options) {
 
 function getSuggestionValue(suggestion) {
   store.dispatch(updateCurrentUser(suggestion));
+  history.push(`/tunebook/${suggestion.id}/tunes`);
   return suggestion.name;
 }
 
