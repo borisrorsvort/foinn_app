@@ -90,7 +90,7 @@ function getSuggestionValue(suggestion) {
 
 class NameAutoComplete extends Component {
   state = {
-    value: this.props.userName,
+    value: this.props.userName || "",
     selectedSuggestion: {},
     suggestions: []
   };
