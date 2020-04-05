@@ -5,7 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.9.9",
     "@material-ui/icons": "^4.9.1",
-    "abcjs": "https://github.com/paulrosen/abcjs.git",
+    "abcjs": "^5.3.5",
     "autosuggest-highlight": "^3.1.1",
     "axios": "^0.19.2",
     "classnames": "^2.2.5",

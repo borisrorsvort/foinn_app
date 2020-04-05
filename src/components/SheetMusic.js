@@ -17,21 +17,19 @@ const styles = theme => ({
 });
 
 class SheetMusic extends Component {
-  renderAbc(width) {
+  renderAbc() {
     const engraverParams = {
       paddingright: 0,
       paddingleft: 0,
       responsive: "resize",
       add_classes: true
     };
-    const parserParams = {};
-    const renderParams = {};
+
     abcjs.renderAbc(
       this.el,
       abcReformatter(this.props.tune, this.props.type, this.title()),
-      parserParams,
-      engraverParams,
-      renderParams
+      {},
+      engraverParams
     );
   }
 
