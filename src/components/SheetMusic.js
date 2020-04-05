@@ -9,7 +9,7 @@ import he from "he";
 import reactDimensions from "react-dimensions";
 import { withStyles } from "@material-ui/core";
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     marginBottom: 100,
     marginTop: 50

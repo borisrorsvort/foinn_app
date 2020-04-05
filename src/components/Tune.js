@@ -78,7 +78,7 @@ function Tune(props) {
               return (
                 <div key={`${setting.id}-${i}`}>
                   <Typography variant="h5" gutterBottom>
-                    Setting #{setting.id} ({setting.key})
+                    Setting #{setting.id}
                   </Typography>
                   <Typography variant="body2">
                     by {setting.member.name} on {setting.date} —{" "}

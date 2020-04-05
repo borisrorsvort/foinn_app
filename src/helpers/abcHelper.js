@@ -1,7 +1,7 @@
 import { TUNE_URL } from "../constants/actionTypes";
 import he from "he";
 
-const tuneTypes = {
+export const tuneTypes = {
   jig: {
     key: "3/4",
     tempo: "140"

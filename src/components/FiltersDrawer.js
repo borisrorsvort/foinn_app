@@ -31,7 +31,7 @@ class FiltersDrawer extends Component {
               keepMounted: true // Better open performance on mobile.
             }}
           >
-            Hello
+            {this.props.children}
           </Drawer>
         </Hidden>
         <Hidden smDown implementation="css">
@@ -43,7 +43,7 @@ class FiltersDrawer extends Component {
               paper: classes.drawerPaper
             }}
           >
-            Hello
+            {this.props.children}
           </Drawer>
         </Hidden>
       </div>

@@ -15,8 +15,9 @@ import { logout } from "./actions/session";
 import smallLogoUrl from "./images/logo-small.svg";
 import { toggleDrawer, toggleFilters } from "./actions/ui";
 import { withStyles } from "@material-ui/core/styles";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import NavDrawer from "./components/NavDrawer";
+
 function App(props) {
   const handleDrawerToggle = () => {
     props.toggleDrawer();

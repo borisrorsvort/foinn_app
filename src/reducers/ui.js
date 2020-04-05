@@ -1,9 +1,14 @@
-import { TOGGLE_DRAWER, TOGGLE_FILTERS } from "../constants/actionTypes";
+import {
+  TOGGLE_DRAWER,
+  TOGGLE_FILTERS,
+  UPDATE_TUNE_FILTERS
+} from "../constants/actionTypes";
 
 function ui(
   state = {
     showDrawer: false,
-    showFilters: false
+    showFilters: false,
+    tuneFilters: {}
   },
   action
 ) {
@@ -17,6 +22,11 @@ function ui(
       return {
         ...state,
         showFilters: action.forceClose ? false : !state.showFilters
+      };
+    case UPDATE_TUNE_FILTERS:
+      return {
+        ...state,
+        tuneFilters: action.filters
       };
     default:
       return state;
