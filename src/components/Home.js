@@ -1,4 +1,11 @@
-import { Button, Grid, Paper, Typography, withStyles } from "@material-ui/core";
+import {
+  Button,
+  Grid,
+  Paper,
+  Typography,
+  withStyles,
+  Link as AnchorLink
+} from "@material-ui/core";
 
 import BodyClassName from "react-body-classname";
 import { Link } from "react-router-dom";
@@ -63,13 +70,14 @@ function Home(props) {
           <Paper className={classes.paper} elevation={8}>
             <Typography variant="subtitle1" gutterBottom>
               To start, select your{" "}
-              <a
+              <AnchorLink
                 href="https://thesession.org"
+                color="primary"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 TheSession.org
-              </a>{" "}
+              </AnchorLink>{" "}
               user name.
             </Typography>
             <NameAutoComplete userName={userName} />

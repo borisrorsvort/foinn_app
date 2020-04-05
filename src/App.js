@@ -36,7 +36,7 @@ function App(props) {
       <AppBar className={classes.appBar}>
         <Toolbar>
           <IconButton
-            color="secondary"
+            color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerToggle}
             className={classes.navIconHide}
@@ -49,13 +49,13 @@ function App(props) {
             </Hidden>
             <Typography variant="h6"> — {folder}</Typography>
           </div>
-          <Button component={Link} to={"/"} color="secondary">
+          <Button component={Link} to={"/"} color="inherit">
             Change user
           </Button>
           <IconButton
             size="small"
             component="a"
-            color="secondary"
+            color="inherit"
             href="mailto:accounts+foinn@rorsvort.com"
           >
             <Help />

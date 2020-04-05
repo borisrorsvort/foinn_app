@@ -7,7 +7,8 @@ import {
   Slide,
   AppBar,
   IconButton,
-  Toolbar
+  Toolbar,
+  Link
 } from "@material-ui/core";
 import React, { Component } from "react";
 import CloseIcon from "@material-ui/icons/Close";
@@ -78,17 +79,13 @@ class Tune extends Component {
           <Toolbar>
             <IconButton
               edge="start"
-              color="secondary"
               onClick={handleClose}
               aria-label="close"
+              color="inherit"
             >
               <CloseIcon />
             </IconButton>
-            <Typography
-              variant="h6"
-              className={this.props.classes.title}
-              color="secondary"
-            >
+            <Typography variant="h6" className={this.props.classes.title}>
               {tuneLoaded && he.decode(this.props.currentTune.name)}
             </Typography>
           </Toolbar>
@@ -104,13 +101,14 @@ class Tune extends Component {
                     </Typography>
                     <Typography variant="body2">
                       by {setting.member.name} on {setting.date} —{" "}
-                      <a
+                      <Link
                         target="_blank"
                         rel="noopener noreferrer"
+                        color="primary"
                         href={`${TUNE_URL}${this.props.currentTune.id}#setting${setting.id}`}
                       >
                         View on The Session.org
-                      </a>
+                      </Link>
                     </Typography>
                     <SheetMusic
                       tune={setting}

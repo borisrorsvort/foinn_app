@@ -13,35 +13,16 @@ import registerServiceWorker from "./registerServiceWorker";
 import store from "./store";
 import history from "./history";
 
-const white = {
-  50: "#fff",
-  100: "#fff",
-  200: "#fff",
-  300: "#fff",
-  400: "#fff",
-  500: "#fff",
-  600: "#fff",
-  700: "#fff",
-  800: "#fff",
-  900: "#fff",
-  A100: "#fff",
-  A200: "#fff",
-  A400: "#fff",
-  A700: "#fff",
-  contrastDefaultColor: "brown"
-};
-
 const theme = createMuiTheme({
   palette: {
     primary: {
       main: "#357a38",
       ...green
     },
-    secondary: white,
+    secondary: green,
     error: red
   },
   typography: {
-    useNextVariants: true,
     h1: {
       fontFamily: "'Kaushan Script', 'cursive'",
       fontSize: "2.8125rem"
