@@ -11,14 +11,15 @@ function Tunebook(props) {
   const {
     match: { url },
     items,
-    userId
+    userId,
+    userChanged
   } = props;
 
   useEffect(() => {
-    if (!items.length) {
+    if (userChanged || !items.length) {
       store.dispatch(fetchTuneBook(userId));
     }
-  }, [userId, items.length]);
+  }, [userId, items.length, userChanged]);
 
   return (
     <div>
@@ -29,9 +30,10 @@ function Tunebook(props) {
     </div>
   );
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   return {
-    items: state.tunes.tunes
+    items: state.tunes.tunes,
+    userChanged: state.session.currentUser.id !== props.userId
   };
 };
 export default connect(mapStateToProps)(withRouter(Tunebook));

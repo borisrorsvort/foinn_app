@@ -1,7 +1,7 @@
 import * as types from "../constants/actionTypes";
-import range from "lodash/range";
 import flatMap from "lodash/flatMap";
 import axios from "axios";
+import { updateCurrentUser } from "./session";
 
 function requestTuneBook() {
   return {
@@ -31,6 +31,8 @@ function receiveTune(tune) {
 
 export const fetchTuneBook = memberId => dispatch => {
   dispatch(requestTuneBook());
+  dispatch(updateCurrentUser({ id: memberId }));
+
   let responses = [];
 
   function fetch(page, rsps) {
