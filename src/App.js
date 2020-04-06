@@ -1,4 +1,5 @@
 import "./App.css";
+import Joyride from "react-joyride";
 
 import { Hidden, Typography } from "@material-ui/core";
 import Filters from "@material-ui/icons/Search";
@@ -18,6 +19,7 @@ import { toggleDrawer, toggleFilters } from "./actions/ui";
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import NavDrawer from "./components/NavDrawer";
+import { steps } from "./helpers/welcomeTour";
 
 function App(props) {
   const handleDrawerToggle = () => {
@@ -36,9 +38,16 @@ function App(props) {
   } = props;
   return (
     <div className={classes.root}>
+      <Joyride
+        steps={steps}
+        continuous={true}
+        showProgress={true}
+        disableScrolling={true}
+      />
       <AppBar className={classes.appBar}>
         <Toolbar>
           <IconButton
+            id="navToggle"
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerToggle}
