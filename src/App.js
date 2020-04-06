@@ -19,7 +19,7 @@ import { toggleDrawer, toggleFilters } from "./actions/ui";
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import NavDrawer from "./components/NavDrawer";
-import { steps } from "./helpers/welcomeTour";
+import { steps, stepsStyles } from "./helpers/welcomeTour";
 
 function App(props) {
   const handleDrawerToggle = () => {
@@ -43,6 +43,7 @@ function App(props) {
         continuous={true}
         showProgress={true}
         disableScrolling={true}
+        styles={stepsStyles}
       />
       <AppBar className={classes.appBar}>
         <Toolbar>

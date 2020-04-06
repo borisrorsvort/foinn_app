@@ -37,7 +37,7 @@ function TuneFiltersForm(props) {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} id="filtersForm">
       <TextField
         id="filter-search"
         label="Search"

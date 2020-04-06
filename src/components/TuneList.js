@@ -17,14 +17,14 @@ const useStyles = makeStyles({});
 function TuneList(props) {
   const classes = useStyles();
   const { items, match } = props;
-  const itemName = item =>
+  const itemName = (item) =>
     item &&
     (item.name.length > 40
       ? he.decode(item.name).substring(0, 40) + "..."
       : he.decode(item.name));
 
   return (
-    <List className={classes.root}>
+    <List className={classes.root} id="tunesList">
       {items.map((item, index) => (
         <Fragment key={`${index}-item.id`}>
           <ListItem
