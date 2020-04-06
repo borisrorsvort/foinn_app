@@ -31,19 +31,19 @@ function receiveTune(tune) {
   };
 }
 
-export const fetchTuneBook = memberId => dispatch => {
+export const fetchTuneBook = (memberId) => (dispatch) => {
   dispatch(requestTuneBook());
   dispatch(updateCurrentUser({ id: memberId }));
 
   let responses = [];
 
   function fetch(page, rsps) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       axios
         .get(`${types.MEMBER_URL}${memberId}/tunebook`, {
           params: { page: page, format: "json", perpage: 50 }
         })
-        .then(response => {
+        .then((response) => {
           rsps.push(response);
           const {
             data: { page, pages }
@@ -59,21 +59,21 @@ export const fetchTuneBook = memberId => dispatch => {
 
   return fetch(1, responses).then(() => {
     const tunes = sortBy(
-      flatMap(responses, response => response.data.tunes),
+      flatMap(responses, (response) => response.data.tunes),
       ["name"]
     );
     dispatch(receiveTuneBook(tunes, { total: tunes.length }));
   });
 };
 
-export const fetchTune = tuneId => dispatch => {
+export const fetchTune = (tuneId) => (dispatch) => {
   dispatch(requestTune());
   return axios
     .get(`${types.TUNE_URL}${tuneId}?format=json`)
-    .then(function(response) {
+    .then(function (response) {
       dispatch(receiveTune(response.data));
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.log(error);
     });
 };

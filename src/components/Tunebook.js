@@ -9,6 +9,9 @@ import TuneList from "./TuneList";
 import PageLoading from "./PageLoading";
 import FiltersDrawer from "./FiltersDrawer";
 import TuneFiltersForm from "./FiltersForm/TuneFiltersForm";
+import { withSnackbar } from "notistack";
+import { CircularProgress } from "@material-ui/core";
+import { fuseoptions } from "../helpers/searchHelper";
 
 function Tunebook(props) {
   const {
@@ -17,29 +20,39 @@ function Tunebook(props) {
     userId,
     isFetching,
     userChanged,
-    fetchTuneBook
+    fetchTuneBook,
+    filters,
+    enqueueSnackbar,
+    closeSnackbar
   } = props;
 
   useEffect(() => {
     if (userChanged || !items.length) {
-      fetchTuneBook(userId);
+      const snack = enqueueSnackbar("Syncing tunebook!", {
+        variant: "success",
+        persist: true,
+        action: <CircularProgress />
+      });
+      fetchTuneBook(userId, snack).finally(() => {
+        closeSnackbar(snack);
+      });
     }
-  }, [userId, items.length, userChanged, fetchTuneBook]);
-
-  const fuseoptions = {
-    includeScore: false,
-    threshold: 0.2,
-    findAllMatches: true,
-    keys: ["name"]
-  };
+  }, [
+    userId,
+    items.length,
+    userChanged,
+    fetchTuneBook,
+    enqueueSnackbar,
+    closeSnackbar
+  ]);
 
   const fuse = new Fuse(items, fuseoptions);
-  let filteredTunes = props.filters.search
-    ? fuse.search(props.filters.search || "").map(item => item.item)
+  let filteredTunes = filters.search
+    ? fuse.search(filters.search || "").map((item) => item.item)
     : items;
 
   const withType = filteredTunes.filter(
-    item => !props.filters.tuneType || item.type === props.filters.tuneType
+    (item) => !filters.tuneType || item.type === filters.tuneType
   );
 
   return (
@@ -64,5 +77,5 @@ const mapStateToProps = (state, props) => {
 };
 
 export default connect(mapStateToProps, { fetchTuneBook })(
-  withRouter(Tunebook)
+  withSnackbar(withRouter(Tunebook))
 );

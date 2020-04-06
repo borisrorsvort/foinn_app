@@ -1,6 +1,7 @@
 import "./index.css";
 import { Router, Route } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { SnackbarProvider } from "notistack";
 
 import App from "./App";
 import Home from "./components/Home";
@@ -33,16 +34,18 @@ const theme = createMuiTheme({
 const app = (
   <MuiThemeProvider theme={theme}>
     <Provider store={store}>
-      <Router history={history}>
-        <div>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/tunebook/:userId/:folder">
-            <App />
-          </Route>
-        </div>
-      </Router>
+      <SnackbarProvider>
+        <Router history={history}>
+          <div>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route path="/tunebook/:userId/:folder">
+              <App />
+            </Route>
+          </div>
+        </Router>
+      </SnackbarProvider>
     </Provider>
   </MuiThemeProvider>
 );

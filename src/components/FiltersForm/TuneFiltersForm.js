@@ -14,12 +14,12 @@ import debounce from "lodash/debounce";
 import { updateTuneFilters } from "../../actions/ui";
 import { connect } from "react-redux";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(2)
   },
   formControl: {
-    marginBottom: theme.spacing(2)
+    margin: theme.spacing(2, 0)
   }
 }));
 
@@ -27,11 +27,11 @@ function TuneFiltersForm(props) {
   const classes = useStyles();
   const { currentFilters } = props;
 
-  const handleSearchChange = debounce(value => {
+  const handleSearchChange = debounce((value) => {
     props.updateTuneFilters({ ...currentFilters, search: value });
   }, 200);
 
-  const handleTuneTypeChange = e => {
+  const handleTuneTypeChange = (e) => {
     const value = e.target.value === "all" ? undefined : e.target.value;
     props.updateTuneFilters({ ...currentFilters, tuneType: value });
   };
@@ -42,8 +42,12 @@ function TuneFiltersForm(props) {
         id="filter-search"
         label="Search"
         variant="outlined"
-        onChange={e => handleSearchChange(e.target.value)}
+        onChange={(e) => handleSearchChange(e.target.value)}
         defaultValue={currentFilters.search}
+        placeholder="Search by name"
+        InputLabelProps={{
+          shrink: true
+        }}
         fullWidth
         className={classes.formControl}
       />
@@ -56,12 +60,16 @@ function TuneFiltersForm(props) {
           defaultValue="all"
           onChange={handleTuneTypeChange}
         >
-          <FormControlLabel value="all" control={<Radio />} label="All" />
-          {Object.keys(tuneTypes).map(tuneType => (
+          <FormControlLabel
+            value="all"
+            control={<Radio color="primary" />}
+            label="All"
+          />
+          {Object.keys(tuneTypes).map((tuneType) => (
             <FormControlLabel
               key={tuneType}
               value={tuneType}
-              control={<Radio />}
+              control={<Radio color="primary" />}
               label={startCase(tuneType)}
             />
           ))}
@@ -71,7 +79,7 @@ function TuneFiltersForm(props) {
   );
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentFilters: state.ui.tuneFilters
 });
 

@@ -26,10 +26,18 @@ export function requestUserId() {
   };
 }
 
-export const fetchUserId = query => {
+export const fetchUserId = (query) => {
   return axios
     .get(`${MEMBER_URL}search?q=${query}&format=json`)
-    .catch(function(error) {
+    .catch(function (error) {
+      console.log(error);
+    });
+};
+
+export const fetchUser = (userId) => {
+  return axios
+    .get(`${MEMBER_URL}/${userId}&format=json`)
+    .catch(function (error) {
       console.log(error);
     });
 };
