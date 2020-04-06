@@ -2,6 +2,7 @@ import "./App.css";
 
 import { Hidden, Typography } from "@material-ui/core";
 import Filters from "@material-ui/icons/Search";
+import startCase from "lodash/startCase";
 import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
@@ -49,7 +50,9 @@ function App(props) {
             <Hidden smDown>
               <img src={smallLogoUrl} alt="Foinn" className={classes.logo} />
             </Hidden>
-            <Typography variant="h6"> — {folder}</Typography>
+            <Typography className={classes.title} variant="h6">
+              — {startCase(folder)}
+            </Typography>
           </div>
           <Hidden mdUp>
             <IconButton
@@ -75,7 +78,7 @@ function App(props) {
   );
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   showDrawer: state.ui.showDrawer
 });
 

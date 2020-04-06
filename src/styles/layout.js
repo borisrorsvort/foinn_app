@@ -1,6 +1,6 @@
 import { SIDEBAR_WIDTH } from "../constants/layout";
 
-export const layoutStyles = theme => ({
+export const layoutStyles = (theme) => ({
   root: {
     flexGrow: 1,
     zIndex: 1,
@@ -17,6 +17,9 @@ export const layoutStyles = theme => ({
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen
     })
+  },
+  title: {
+    marginLeft: theme.spacing(2)
   },
   flex: {
     flex: 1,
