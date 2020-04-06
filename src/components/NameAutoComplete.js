@@ -8,7 +8,7 @@ import parse from "autosuggest-highlight/parse";
 import store from "../store";
 import history from "../history";
 
-const styles = theme => ({
+const styles = (theme) => ({
   suggestionsContainer: {
     position: "relative",
     zIndex: 999
@@ -40,6 +40,7 @@ function renderInput(inputProps) {
       className={classes.textField}
       autoFocus={autoFocus}
       value={value}
+      variant="outlined"
       inputRef={ref}
       styles={{
         width: "100%"
@@ -84,9 +85,12 @@ function renderSuggestionsContainer(options) {
   );
 }
 
-function getSuggestionValue(suggestion) {
+function onSuggestionSelected(_event, { suggestion }) {
   store.dispatch(updateCurrentUser(suggestion));
   history.push(`/tunebook/${suggestion.id}/tunes`);
+}
+
+function getSuggestionValue(suggestion) {
   return suggestion.name;
 }
 
@@ -101,7 +105,7 @@ class NameAutoComplete extends Component {
     if (value.length < 4) {
       return false;
     } else {
-      fetchUserId(value).then(data => {
+      fetchUserId(value).then((data) => {
         if (data !== undefined) {
           this.setState({ suggestions: data.data.members });
         } else {
@@ -135,6 +139,7 @@ class NameAutoComplete extends Component {
         suggestions={this.state.suggestions}
         onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
         onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
+        onSuggestionSelected={onSuggestionSelected}
         renderSuggestionsContainer={renderSuggestionsContainer}
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderSuggestion}
