@@ -10,8 +10,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import LibraryMusic from "@material-ui/icons/LibraryMusic";
 import MusicNote from "@material-ui/icons/MusicNote";
 import { connect } from "react-redux";
-import history from "../../history";
 import { Divider } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles({
   list: {
@@ -43,15 +43,15 @@ function NavDrawer(props) {
     }
   ];
 
-  const handleClick = item => {
+  const handleClick = (item) => {
     props.onClose();
-    history.push(item.to);
+    props.history.push(item.to);
   };
 
   const list = () => (
     <div role="presentation" className={classes.list}>
       <List>
-        {items.map(item => (
+        {items.map((item) => (
           <ListItem button key={item.label} onClick={() => handleClick(item)}>
             <ListItemIcon>{item.icon}</ListItemIcon>
             <ListItemText primary={item.label} />
@@ -80,10 +80,10 @@ function NavDrawer(props) {
   );
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   tunesCount: state.tunes.meta?.total,
   setsCount: state.sets.meta?.total,
   currentUser: state.session.currentUser
 });
 
-export default connect(mapStateToProps)(NavDrawer);
+export default connect(mapStateToProps)(withRouter(NavDrawer));

@@ -1,5 +1,5 @@
 import "./index.css";
-import { Router, Route } from "react-router-dom";
+import { HashRouter, Route } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { SnackbarProvider } from "notistack";
 
@@ -12,7 +12,6 @@ import green from "@material-ui/core/colors/green";
 import red from "@material-ui/core/colors/red";
 import registerServiceWorker from "./registerServiceWorker";
 import store from "./store";
-import history from "./history";
 
 const theme = createMuiTheme({
   palette: {
@@ -35,7 +34,7 @@ const app = (
   <MuiThemeProvider theme={theme}>
     <Provider store={store}>
       <SnackbarProvider>
-        <Router history={history}>
+        <HashRouter>
           <div>
             <Route exact path="/">
               <Home />
@@ -44,7 +43,7 @@ const app = (
               <App />
             </Route>
           </div>
-        </Router>
+        </HashRouter>
       </SnackbarProvider>
     </Provider>
   </MuiThemeProvider>

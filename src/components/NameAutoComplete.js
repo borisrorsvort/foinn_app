@@ -6,7 +6,7 @@ import Autosuggest from "react-autosuggest";
 import match from "autosuggest-highlight/match";
 import parse from "autosuggest-highlight/parse";
 import store from "../store";
-import history from "../history";
+import { withRouter } from "react-router-dom";
 
 const styles = (theme) => ({
   suggestionsContainer: {
@@ -85,10 +85,10 @@ function renderSuggestionsContainer(options) {
   );
 }
 
-function onSuggestionSelected(_event, { suggestion }) {
+const onSuggestionSelected = ({ suggestion }, history) => {
   store.dispatch(updateCurrentUser(suggestion));
   history.push(`/tunebook/${suggestion.id}/tunes`);
-}
+};
 
 function getSuggestionValue(suggestion) {
   return suggestion.name;
@@ -126,7 +126,7 @@ class NameAutoComplete extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, history } = this.props;
     return (
       <Autosuggest
         theme={{
@@ -139,7 +139,9 @@ class NameAutoComplete extends Component {
         suggestions={this.state.suggestions}
         onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
         onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
-        onSuggestionSelected={onSuggestionSelected}
+        onSuggestionSelected={(_e, suggestion) =>
+          onSuggestionSelected(suggestion, history)
+        }
         renderSuggestionsContainer={renderSuggestionsContainer}
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderSuggestion}
@@ -155,4 +157,4 @@ class NameAutoComplete extends Component {
   }
 }
 
-export default withStyles(styles)(NameAutoComplete);
+export default withStyles(styles)(withRouter(NameAutoComplete));

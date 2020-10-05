@@ -1,6 +1,9 @@
 import * as types from "../constants/actionTypes";
+import flatMap from "lodash/flatMap";
+import sortBy from "lodash/sortBy";
 
 import axios from "axios";
+import { updateCurrentUser } from "./session";
 
 function requestSets() {
   return {
@@ -30,40 +33,49 @@ function receiveSet(set) {
   };
 }
 
-export const fetchSets = (memberId, nextPage = 1, add = false) => dispatch => {
+export const fetchSets = (memberId) => (dispatch) => {
   dispatch(requestSets());
-  return axios
-    .get(
-      `${types.MEMBER_URL}${memberId}/sets?format=json&page=${nextPage}&perpage=50`
-    )
-    .then(function(response) {
-      const { page, pages, total, sets, perpage } = response.data;
-      dispatch(
-        receiveSets(
-          sets,
-          {
-            page: page,
-            pages: pages,
-            perpage: perpage,
-            total: total
-          },
-          add
-        )
-      );
-    })
-    .catch(function(error) {
-      console.log(error);
+  dispatch(updateCurrentUser({ id: memberId }));
+
+  let responses = [];
+
+  function fetch(page, rsps) {
+    return new Promise((resolve) => {
+      axios
+        .get(`${types.MEMBER_URL}${memberId}/sets`, {
+          params: { page: page, format: "json", perpage: 50 }
+        })
+        .then((response) => {
+          rsps.push(response);
+          const {
+            data: { page, pages }
+          } = response;
+          if (!!page && page < pages) {
+            axios.all([fetch(page + 1, rsps)]).then(() => resolve());
+          } else {
+            resolve();
+          }
+        });
     });
+  }
+
+  return fetch(1, responses).then(() => {
+    const sets = sortBy(
+      flatMap(responses, (response) => response.data.sets),
+      ["name"]
+    );
+    dispatch(receiveSets(sets, { total: sets.length }));
+  });
 };
 
-export const fetchSet = (memberId, setId) => dispatch => {
+export const fetchSet = (memberId, setId) => (dispatch) => {
   dispatch(requestSet());
   return axios
     .get(`${types.MEMBER_URL}${memberId}/sets/${setId}?format=json`)
-    .then(function(response) {
+    .then(function (response) {
       dispatch(receiveSet(response.data));
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.log(error);
     });
 };

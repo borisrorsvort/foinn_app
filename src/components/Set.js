@@ -1,151 +1,111 @@
 import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CircularProgress,
   Grid,
-  Hidden,
-  Tooltip,
   Typography,
-  withStyles
+  withStyles,
+  Dialog,
+  Slide,
+  AppBar,
+  IconButton,
+  Toolbar,
+  Link
 } from "@material-ui/core";
-import React, { Component } from "react";
-
-import FileCopyIcon from "@material-ui/icons/FileCopyOutlined";
+import React, { useEffect } from "react";
+import CloseIcon from "@material-ui/icons/Close";
 import { withRouter } from "react-router-dom";
-import PrintIcon from "@material-ui/icons/PrintOutlined";
 import SheetMusic from "./SheetMusic";
 import { TUNE_URL } from "../constants/actionTypes";
 import { connect } from "react-redux";
 import { fetchSet } from "../actions/sets";
 import he from "he";
 import store from "../store";
+import PageLoading from "./PageLoading";
 
-const styles = theme => ({
-  card: {
-    margin: `${theme.spacing(10)}px 0`
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const styles = (theme) => ({
+  root: {
+    marginTop: 100
   },
+  settings: theme.mixins.gutters({
+    paddingTop: theme.spacing(),
+    paddingBottom: theme.spacing()
+  }),
   title: {
-    marginBottom: 16,
-    fontSize: 14,
-    color: theme.palette.text.secondary
-  },
-  settings: {},
-  iconBtn: {
-    marginRight: "10px"
-  },
-  mainTitle: {
-    textAlign: "center",
-    marginTop: theme.spacing(2),
-    fontWeight: 100,
-    opacity: 0.7,
-    [theme.breakpoints.down("sm")]: {
-      fontSize: "21px"
-    }
-  },
-  printButton: {
-    textAlign: "center"
+    marginLeft: theme.spacing(2),
+    flex: 1
   }
 });
 
-class Set extends Component {
-  componentDidMount() {
-    store.dispatch(fetchSet(this.props.userId, this.props.setId));
-  }
+function Set(props) {
+  useEffect(() => {
+    !!props.setId && store.dispatch(fetchSet(props.userId, props.setId));
+  }, [props.setId, props.userId]);
 
-  componentDidUpdate(nextProps) {
-    const newSetId = nextProps.setId;
-    if (this.props.setId !== newSetId) {
-      store.dispatch(fetchSet(this.props.userId, newSetId));
-    }
-  }
+  const setLoaded = props.currentSet?.name !== undefined;
 
-  render() {
-    const printUrl = `https://thesession.org/members/${this.props.userId}/sets/${this.props.setId}/sheetmusic?print=true`;
-    const { classes } = this.props;
+  const handleClose = () => props.history.push(props.referrer);
 
-    if (this.props.isFetching) {
-      return (
-        <Grid container spacing={24}>
-          <Grid item xs={12} md={8}>
-            <CircularProgress />
+  return (
+    <Dialog
+      fullScreen
+      open={!!props.setId}
+      onClose={handleClose}
+      TransitionComponent={Transition}
+    >
+      <AppBar className={props.classes.appBar}>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            onClick={handleClose}
+            aria-label="close"
+            color="inherit"
+          >
+            <CloseIcon />
+          </IconButton>
+          <Typography variant="h6" className={props.classes.title}>
+            {setLoaded && he.decode(props.currentSet.name)}
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      {!setLoaded && <PageLoading />}
+      {setLoaded && (
+        <Grid container justify="center" className={props.classes.root}>
+          <Grid item xs={12} md={6}>
+            {props.currentSet.settings.map((setting, i) => {
+              return (
+                <div key={`${setting.id}-${i}`}>
+                  <Typography variant="h5" gutterBottom>
+                    Setting #{setting.id}
+                  </Typography>
+                  <Typography variant="body2">
+                    by {setting.member.name} on {setting.date} —{" "}
+                    <Link
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      color="primary"
+                      href={`${TUNE_URL}${props.currentSet.id}#setting${setting.id}`}
+                    >
+                      View on The Session.org
+                    </Link>
+                  </Typography>
+                  <SheetMusic tune={setting} type={props.currentSet.type} />
+                </div>
+              );
+            })}
           </Grid>
         </Grid>
-      );
-    }
-
-    if ((!this.props.currentSet || {}).name) {
-      return null;
-    }
-
-    return (
-      <div>
-        <Grid container spacing={24}>
-          <Grid item xs={12} md={8}>
-            <Typography className={this.props.classes.mainTitle} variant="h1">
-              {he.decode(this.props.currentSet.name)}
-            </Typography>
-            <Hidden smDown>
-              <p className={classes.printButton}>
-                <Button href={printUrl} target="_blank" mini>
-                  <PrintIcon className={classes.iconBtn} />
-                  Print
-                </Button>
-                <Tooltip title="If your viewing another users set, you can copy it to your tuebook. Click to go the session.org where you can add it to yours.">
-                  <Button href={this.props.currentSet.url} target="_blank" mini>
-                    <FileCopyIcon className={classes.iconBtn} />
-                    Copy
-                  </Button>
-                </Tooltip>
-              </p>
-            </Hidden>
-          </Grid>
-        </Grid>
-        <div className={classes.settings}>
-          {this.props.currentSet.settings.map(setting => {
-            return (
-              <Grid container spacing={24} key={setting.id}>
-                <Grid item xs={12} md={8}>
-                  <SheetMusic tune={setting} />
-                </Grid>
-                <Hidden smDown>
-                  <Grid item xs={12} md={4}>
-                    <Card className={classes.card} key={setting.id}>
-                      <CardContent>
-                        <Typography variant="subtitle1" gutterBottom>
-                          Setting {he.decode(setting.name)} ({setting.key})
-                        </Typography>
-                        <Typography variant="caption">
-                          by {setting.member.name} on {setting.date}
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button
-                          component={"a"}
-                          target="_blank"
-                          href={`${TUNE_URL}${setting.id}`}
-                        >
-                          View on The Session.org
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                </Hidden>
-              </Grid>
-            );
-          })}
-        </div>
-      </div>
-    );
-  }
+      )}
+    </Dialog>
+  );
 }
 
 const mapStateToProps = (state, props) => ({
-  setId: props.match.params.setId,
   currentSet: state.sets.currentSet,
-  userId: state.session.currentUser.id,
-  isFetching: state.sets.currentSet.isFetching
+  isFetching: state.sets.currentSet.isFetching,
+  setId: props.match.params.setId,
+  userId: state.session.currentUser.id
 });
 
 export default withRouter(connect(mapStateToProps)(withStyles(styles)(Set)));

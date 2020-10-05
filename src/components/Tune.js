@@ -18,14 +18,13 @@ import { connect } from "react-redux";
 import { fetchTune } from "../actions/tuneBook";
 import he from "he";
 import store from "../store";
-import history from "../history";
 import PageLoading from "./PageLoading";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     marginTop: 100
   },
@@ -46,7 +45,7 @@ function Tune(props) {
 
   const tuneLoaded = props.currentTune?.name !== undefined;
 
-  const handleClose = () => history.push(props.referrer);
+  const handleClose = () => props.history.push(props.referrer);
 
   return (
     <Dialog

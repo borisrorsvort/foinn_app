@@ -30,7 +30,11 @@ function TuneList(props) {
           <ListItem
             component={Link}
             button
-            to={match.params.tuneId ? `${item.id}` : `${match.url}/${item.id}`}
+            to={
+              match.params.tuneId || match.params.setId
+                ? `${item.id}`
+                : `${match.url}/${item.id}`
+            }
           >
             <ListItemIcon>
               <MusicNote />

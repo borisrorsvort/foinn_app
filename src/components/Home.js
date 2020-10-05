@@ -15,7 +15,7 @@ import { connect } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 import logoUrl from "../images/logo.svg";
 
-const styles = theme => ({
+const styles = (theme) => ({
   container: {
     height: "100vh"
   },
@@ -99,7 +99,7 @@ function Home(props) {
   );
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentUser: state.session.currentUser,
   userName: !isEmpty(state.session.currentUser)
     ? state.session.currentUser.name
