@@ -51,32 +51,30 @@ function TuneFiltersForm(props) {
         fullWidth
         className={classes.formControl}
       />
-      {folder === "tunes" && (
-        <FormControl component="fieldset" className={classes.formControl}>
-          <FormLabel component="legend">Type</FormLabel>
-          <RadioGroup
-            aria-label="Tune Type"
-            id="filter-tuneType"
-            name="tuneType"
-            defaultValue="all"
-            onChange={handleTuneTypeChange}
-          >
+      <FormControl component="fieldset" className={classes.formControl}>
+        <FormLabel component="legend">Type</FormLabel>
+        <RadioGroup
+          aria-label="Tune Type"
+          id="filter-tuneType"
+          name="tuneType"
+          defaultValue="all"
+          onChange={handleTuneTypeChange}
+        >
+          <FormControlLabel
+            value="all"
+            control={<Radio color="primary" />}
+            label="All"
+          />
+          {Object.keys(tuneTypes).map((tuneType) => (
             <FormControlLabel
-              value="all"
+              key={tuneType}
+              value={tuneType}
               control={<Radio color="primary" />}
-              label="All"
+              label={startCase(tuneType)}
             />
-            {Object.keys(tuneTypes).map((tuneType) => (
-              <FormControlLabel
-                key={tuneType}
-                value={tuneType}
-                control={<Radio color="primary" />}
-                label={startCase(tuneType)}
-              />
-            ))}
-          </RadioGroup>
-        </FormControl>
-      )}
+          ))}
+        </RadioGroup>
+      </FormControl>
     </div>
   );
 }

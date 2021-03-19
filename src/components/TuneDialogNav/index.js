@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
 import findIndex from "lodash/findIndex";
@@ -16,7 +16,7 @@ function TuneDialogNav(props) {
   const nextId = items[currentIndex + 1]?.id;
 
   return (
-    <>
+    <Box style={{ marginLeft: "auto" }}>
       {previousId && (
         <Button
           color="inherit"
@@ -35,7 +35,7 @@ function TuneDialogNav(props) {
           Next
         </Button>
       )}
-    </>
+    </Box>
   );
 }
 

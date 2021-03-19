@@ -7,7 +7,9 @@ import {
   AppBar,
   IconButton,
   Toolbar,
-  Link
+  Link,
+  Box,
+  Hidden
 } from "@material-ui/core";
 import React, { useEffect } from "react";
 import CloseIcon from "@material-ui/icons/Close";
@@ -46,7 +48,6 @@ function Set(props) {
   const setLoaded = props.currentSet?.name !== undefined;
 
   const handleClose = () => props.history.push(props.referrer);
-  console.log(props.currentSet.settings);
   return (
     <Dialog
       fullScreen
@@ -64,39 +65,43 @@ function Set(props) {
           >
             <CloseIcon />
           </IconButton>
-          <Typography variant="h6" className={props.classes.title}>
-            {setLoaded && he.decode(props.currentSet.name)}
-          </Typography>
+          <Hidden xsDown>
+            <Typography variant="h6" className={props.classes.title}>
+              {setLoaded && he.decode(props.currentSet.name)}
+            </Typography>
+          </Hidden>
           <TuneDialogNav tuneId={props.currentSet.id} folder="sets" />
         </Toolbar>
       </AppBar>
       {!setLoaded && <PageLoading />}
       {setLoaded && (
-        <Grid container justify="center" className={props.classes.root}>
-          <Grid item xs={12} md={6}>
-            {props.currentSet.settings.map((setting, i) => {
-              return (
-                <div key={`${setting.id}-${i}`}>
-                  <Typography variant="h5" gutterBottom>
-                    {decode(setting.name)}
-                  </Typography>
-                  <Typography variant="body2">
-                    by {setting.member.name} on {setting.date} —{" "}
-                    <Link
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      color="primary"
-                      href={setting.url}
-                    >
-                      View on The Session.org
-                    </Link>
-                  </Typography>
-                  <SheetMusic tune={setting} type={props.currentSet.type} />
-                </div>
-              );
-            })}
+        <Box p={2}>
+          <Grid container justify="center" className={props.classes.root}>
+            <Grid item md={12} md={10} lg={9}>
+              {props.currentSet.settings.map((setting, i) => {
+                return (
+                  <div key={`${setting.id}-${i}`}>
+                    <Typography variant="h5" gutterBottom>
+                      {decode(setting.name)}
+                    </Typography>
+                    <Typography variant="body2">
+                      by {setting.member.name} on {setting.date} —{" "}
+                      <Link
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        color="primary"
+                        href={setting.url}
+                      >
+                        View on The Session.org
+                      </Link>
+                    </Typography>
+                    <SheetMusic tune={setting} type={props.currentSet.type} />
+                  </div>
+                );
+              })}
+            </Grid>
           </Grid>
-        </Grid>
+        </Box>
       )}
     </Dialog>
   );

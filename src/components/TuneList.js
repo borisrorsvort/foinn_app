@@ -8,7 +8,8 @@ import {
   makeStyles,
   List,
   ListItemText,
-  Divider
+  Divider,
+  capitalize
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { LibraryMusic } from "@material-ui/icons";
@@ -30,7 +31,6 @@ function TuneList(props) {
     (item.name.length > 150
       ? he.decode(item.name).substring(0, 150) + "..."
       : he.decode(item.name));
-
   return (
     <List className={classes.root} id="tunesList">
       {items.map((item, index) => (
@@ -39,7 +39,13 @@ function TuneList(props) {
             <ListItemIcon>
               {isTune ? <MusicNote /> : <LibraryMusic />}
             </ListItemIcon>
-            <ListItemText primary={itemName(item)} secondary={item.type} />
+            <ListItemText
+              primary={itemName(item)}
+              secondary={
+                item.type ||
+                item.settings.map((set) => capitalize(set.type)).join(", ")
+              }
+            />
           </ListItem>
           <Divider variant="inset" />
         </li>

@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 
 import { abcReformatter } from "../helpers/abcHelper";
-// eslint-disable-next-line import/no-webpack-loader-syntax
-//import abcjs from "exports-loader?ABCJS!script-loader!../../node_modules/abcjs/bin/abcjs_basic_latest-min.js";
 import abcjs from "abcjs";
 import abcjsMidi from "abcjs/midi";
 import he from "he";
@@ -75,8 +73,8 @@ class SheetMusic extends Component {
   render() {
     return (
       <div className={this.props.classes.root}>
-        <div ref={el => (this.el = el)} />
-        <div ref={el => (this.midi = el)} />
+        <div ref={(el) => (this.el = el)} />
+        <div ref={(el) => (this.midi = el)} />
       </div>
     );
   }

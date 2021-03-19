@@ -13,6 +13,7 @@ import { withSnackbar } from "notistack";
 import { fuseoptions } from "../helpers/searchHelper";
 import { fetchSets } from "../actions/sets";
 import Set from "./Set";
+import { search } from "global-modules";
 
 function Tunebook(props) {
   const {
@@ -31,9 +32,16 @@ function Tunebook(props) {
     : items;
 
   // Excluding items without type so Sets are not filtered in case filter active in the tune section
-  const withType = filteredTunes.filter(
-    (item) => !filters.tuneType || !item.type || item.type === filters.tuneType
-  );
+  const searchTuneType = (item) => item.type === filters.tuneType;
+  const searchSetsSettingsType = (item) =>
+    item.settings.map((setting) => setting.type).includes(filters.tuneType);
+
+  const withType = filteredTunes.filter((item) => {
+    if (!filters.tuneType) {
+      return true;
+    }
+    return item.type ? searchTuneType(item) : searchSetsSettingsType(item);
+  });
 
   return (
     <div>
