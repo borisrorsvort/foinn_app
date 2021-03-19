@@ -7,7 +7,6 @@ import {
   AppBar,
   IconButton,
   Toolbar,
-  Link,
   Box,
   Hidden
 } from "@material-ui/core";
@@ -17,10 +16,11 @@ import { withRouter } from "react-router-dom";
 import SheetMusic from "./SheetMusic";
 import { connect } from "react-redux";
 import { fetchSet } from "../actions/sets";
-import he, { decode } from "he";
+import he from "he";
 import store from "../store";
 import PageLoading from "./PageLoading";
 import TuneDialogNav from "./TuneDialogNav";
+import TuneSettingHeader from "./TuneSettingHeader";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -81,20 +81,7 @@ function Set(props) {
               {props.currentSet.settings.map((setting, i) => {
                 return (
                   <div key={`${setting.id}-${i}`}>
-                    <Typography variant="h5" gutterBottom>
-                      {decode(setting.name)}
-                    </Typography>
-                    <Typography variant="body2">
-                      by {setting.member.name} on {setting.date} —{" "}
-                      <Link
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        color="primary"
-                        href={setting.url}
-                      >
-                        View on The Session.org
-                      </Link>
-                    </Typography>
+                    <TuneSettingHeader setting={setting} />
                     <SheetMusic tune={setting} type={props.currentSet.type} />
                   </div>
                 );

@@ -13,7 +13,6 @@ import { withSnackbar } from "notistack";
 import { fuseoptions } from "../helpers/searchHelper";
 import { fetchSets } from "../actions/sets";
 import Set from "./Set";
-import { search } from "global-modules";
 
 function Tunebook(props) {
   const {

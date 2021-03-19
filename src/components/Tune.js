@@ -7,7 +7,8 @@ import {
   AppBar,
   IconButton,
   Toolbar,
-  Link
+  Link,
+  Box
 } from "@material-ui/core";
 import React, { useEffect } from "react";
 import CloseIcon from "@material-ui/icons/Close";
@@ -19,6 +20,7 @@ import he from "he";
 import store from "../store";
 import PageLoading from "./PageLoading";
 import TuneDialogNav from "./TuneDialogNav";
+import TuneSettingHeader from "./TuneSettingHeader";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -73,31 +75,20 @@ function Tune(props) {
       </AppBar>
       {!tuneLoaded && <PageLoading />}
       {tuneLoaded && (
-        <Grid container justify="center" className={props.classes.root}>
-          <Grid item xs={12} md={8} lg={6}>
-            {props.currentTune.settings.map((setting, i) => {
-              return (
-                <div key={`${setting.id}-${i}`}>
-                  <Typography variant="h5" gutterBottom>
-                    Setting #{setting.id}
-                  </Typography>
-                  <Typography variant="body2">
-                    by {setting.member.name} on {setting.date} —{" "}
-                    <Link
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      color="primary"
-                      href={setting.url}
-                    >
-                      View on The Session.org
-                    </Link>
-                  </Typography>
-                  <SheetMusic tune={setting} type={props.currentTune.type} />
-                </div>
-              );
-            })}
+        <Box p={2}>
+          <Grid container justify="center" className={props.classes.root}>
+            <Grid item md={12} md={10} lg={9}>
+              {props.currentTune.settings.map((setting, i) => {
+                return (
+                  <div key={`${setting.id}-${i}`}>
+                    <TuneSettingHeader setting={setting} />
+                    <SheetMusic tune={setting} type={props.currentTune.type} />
+                  </div>
+                );
+              })}
+            </Grid>
           </Grid>
-        </Grid>
+        </Box>
       )}
     </Dialog>
   );
