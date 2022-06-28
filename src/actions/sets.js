@@ -62,7 +62,7 @@ export const fetchSets = (memberId) => (dispatch) => {
   return fetch(1, responses).then(() => {
     const sets = sortBy(
       flatMap(responses, (response) => response.data.sets),
-      ["name"]
+      ["date"]
     );
     dispatch(receiveSets(sets, { total: sets.length }));
   });
